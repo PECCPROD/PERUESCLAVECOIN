@@ -1,0 +1,12 @@
+---
+const { href, target, ariaLabel } = Astro.props;
+---
+
+<a
+  href={href}
+  target={target}
+  aria-label={ariaLabel}
+  class="flex items-center justify-center px-8 py-3 text-lg font-bold text-black bg-yellow-400 rounded-lg shadow-md transition-all duration-300 hover:bg-yellow-500 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2"
+>
+  <slot />
+</a>
