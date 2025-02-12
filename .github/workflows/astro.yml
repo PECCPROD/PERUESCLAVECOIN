@@ -1,18 +1,18 @@
-name: Deploy Astro to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main # O la rama que estés usando
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,24 +20,33 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 8.6.0 # Especifica la versión de pnpm
+          version: 8 # Usa la versión que necesites
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build Astro
-        run: pnpm run build
+      - name: Build Astro project
+        uses: withastro/action@v2
+        with:
+          package-manager: pnpm@latest
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: dist # Asegúrate de que "dist" sea la carpeta de salida
+          path: dist # Asegúrate de que "dist" sea la carpeta de salida de Astro
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
