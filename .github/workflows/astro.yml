@@ -32,7 +32,8 @@ jobs:
 
       - name: Install pnpm
         run: |
-          npm install -g pnpm@8.6.0
+          corepack enable
+          corepack prepare pnpm@8.6.0 --activate
           echo "Adding pnpm to PATH"
           echo "$(npm bin -g)" >> $GITHUB_PATH
 
