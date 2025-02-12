@@ -5,6 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://PECCPROD.github.io',
+  base: 'PERUESCLAVECOIN',
   vite: {
     plugins: [tailwindcss()]
   }
