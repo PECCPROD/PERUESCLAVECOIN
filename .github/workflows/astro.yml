@@ -31,7 +31,10 @@ jobs:
           cache: "pnpm" # Cache pnpm store
 
       - name: Install pnpm
-        run: npm install -g pnpm@8.6.0 # Install the specific version of pnpm
+        run: |
+          npm install -g pnpm@8.6.0
+          echo "Adding pnpm to PATH"
+          echo "$(npm bin -g)" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile # Install dependencies using pnpm
